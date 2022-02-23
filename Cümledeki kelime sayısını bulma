@@ -1,0 +1,17 @@
+#include<stdio.h>
+#include<conio.h>
+
+int main()
+{
+	int i,sayac=0;
+	char kelime[100];
+	printf("cumle giriniz:"); 
+	gets(kelime);
+	for(i=0;kelime[i];i++)
+	{
+		if(kelime[i]==' ')
+		sayac++;
+	}
+	printf("kelime sayisi = %d ",sayac+1);
+	getch();
+}
