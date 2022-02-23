@@ -1,0 +1,36 @@
+#include<stdio.h>
+#include<conio.h>
+
+int main()
+{
+	float x,y;
+	float sonuc;
+	printf("kilonuzu giriniz:"); scanf("%f",&y);
+	printf("boyunuzu giriniz (metre) :"); scanf("%f",&x);
+    sonuc=y/(x*x);
+    printf("vucut kutle indeksiniz: %f\n ",sonuc);
+    if(sonuc<=18.5)
+    {
+    	printf("zayif: ");
+	}
+	else if(sonuc>18.5 && sonuc<=24.99)
+	{
+		printf("normal kilolu:");
+	}
+	else if(sonuc>=25 && sonuc<=29.99)
+	{
+		printf("fazla kilolu: ");
+	}
+	else if(sonuc>=30 && sonuc<=34.9 )
+	{
+		printf("1. derece obez: ");
+	}
+	else if(sonuc>=35 && sonuc<=39.99)
+	{
+		printf(" 2. derece obez: ");
+	}
+	else if(sonuc>=40)
+	{
+		printf("3. derece obez: ");
+	}
+}
