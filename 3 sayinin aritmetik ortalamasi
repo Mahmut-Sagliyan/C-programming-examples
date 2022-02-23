@@ -1,0 +1,26 @@
+
+
+int main()
+{
+	int x,y,z;
+	float sonuc;
+	printf("birinci sayiyi giriniz:");//
+	scanf("%d",&x);
+	printf("ikinci sayiyi giriniz:");
+	scanf("%d",&y);
+	printf("ucuncu sayiyi giriniz:");
+	scanf("%d",&z);
+	
+	sonuc=float(x+y+z)/3;
+	printf("uc sayinin ortalamasi: %f",sonuc);
+	getch();
+	
+
+	
+	
+	
+	
+	
+	
+	
+}
