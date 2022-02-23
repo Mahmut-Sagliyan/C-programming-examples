@@ -1,0 +1,22 @@
+#include<stdio.h>
+#include<conio.h>
+
+int fonksiyon(int x)
+{
+	int toplam=0,kalan;
+	while(x>0)
+	{
+		kalan=x%10;
+		x=x/10;
+		toplam=toplam+kalan;
+	}
+	return toplam;
+}
+
+int main()
+{
+	int x;
+	printf("sayi giriniz: "); scanf("%d",&x);
+	printf("basamaklarin toplami : %d",fonksiyon(x));
+	getch();
+}
