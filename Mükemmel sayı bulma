@@ -1,0 +1,23 @@
+#include<stdio.h>
+#include<conio.h>
+
+int main()
+{
+	int x,i,msayi=0;
+	printf("sayi giriniz: "); scanf("%d",&x);
+	for(i=1;i<x;i++)
+	{
+		if(x%i==0)
+		{
+			msayi=msayi+i;
+		}
+	}
+	if(x==msayi)
+	{
+		printf("%d mukemmel sayidir: ",x);
+	}
+	else
+	{
+		printf("%d mukemmel sayi degil: ",x);
+	}
+}
