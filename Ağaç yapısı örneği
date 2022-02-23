@@ -1,0 +1,244 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+#include<stdlib.h>
+
+
+struct agac
+{
+	int sayi;
+	struct agac *sol,*sag;
+};
+
+
+int ortadim=0,araadim=1,toplam=0,i=0;
+
+
+
+
+int sbul(struct agac *kok, struct agac *veli, int seviye)
+{
+	struct agac *gcc;
+	if(seviye==0)
+	{
+		printf("%d\n",kok->sayi);
+	}
+	
+
+	else if(seviye==1)
+	{
+		gcc = kok;
+		gcc = gcc->sol;
+		printf("%d\n",gcc->sayi);
+		gcc = kok;
+		gcc = gcc->sag;
+		printf("%d\n",gcc->sayi);
+	}
+	
+	else
+	{
+		while(1==1)
+		{
+			i++;
+			if(kok!=NULL)
+			{
+				sbul(kok->sol,veli,seviye);
+				if(kok->sayi!=veli->sayi)
+				{
+					printf("%d\n",kok->sayi);
+				}
+				
+				sbul(kok->sag,veli,seviye);
+			}
+			
+			break;
+		}
+	}
+	
+	
+}
+
+
+
+
+struct agac *sayiAra(struct agac *kok, int aranan)
+{
+	if(kok==NULL)
+	{
+		return NULL;
+	}
+	if(aranan < kok->sayi)
+	{
+		araadim++;
+		return sayiAra(kok->sol,aranan);
+	}
+	else if(aranan > kok->sayi)
+	{
+		araadim++;
+		return sayiAra(kok->sag,aranan);
+	}
+	else
+	{
+		return kok;
+	}
+}
+
+
+
+int yaprakOrtalama(struct agac *kok)
+{
+	if(kok->sol==NULL && kok->sag==NULL)
+	{
+		toplam = toplam + kok->sayi;
+		ortadim++;
+	}
+	if(kok->sol!=NULL)
+	{
+		yaprakOrtalama(kok->sol);			
+	}
+	if(kok->sag!=NULL)
+	{
+		yaprakOrtalama(kok->sag);	
+	}
+
+}
+
+
+int buyukSayilar(struct agac *kok, int x)
+{
+	if(kok!=NULL)
+	{
+		buyukSayilar(kok->sol,x);
+		if(x < kok->sayi)
+		{
+			printf("%d\n",kok->sayi);
+		}
+		buyukSayilar(kok->sag,x);
+	}
+}
+
+
+
+
+
+int main()
+{
+	
+	struct agac *girilen;
+	struct agac *kok = NULL;
+	struct agac *gcc;
+	struct agac *gcc2;
+	struct agac *veli;
+	struct agac *bulunan;
+	int secim;
+	
+	
+	while(1==1)
+	{
+		printf("\n1-Ekleme\n2-Eleman Seviyesi\n3-Eleman Arama\n4-Yaprak Dugum Ortalama\n5-Girilen Degerden Buyuk sayilar\n6-Cikis\n(1-6) Arasi secim yapiniz: "); scanf("%d",&secim);
+		
+		if(secim==6)
+		{
+			break;
+		}
+		
+		else
+		{
+			switch(secim)
+			{
+				case 1:
+					{
+					    girilen = (struct agac*) malloc(sizeof(struct agac)*1);
+	
+
+						printf("Eklemek istediginiz sayiyi giriniz: "); scanf("%d",&girilen->sayi);
+						girilen->sol = NULL;
+						girilen->sag = NULL;
+	
+						if(kok==NULL)
+						{
+							kok = girilen;
+						}
+	
+						else
+						{
+							gcc = kok;
+							while(gcc!=NULL)
+							{
+								veli = gcc;
+								if(girilen->sayi < gcc->sayi)
+								{
+									gcc = gcc->sol;
+									printf("sol dugum\n"); // sayinin agacin hangi tarafa gittigini bulmak i�in
+								}
+								else
+								{
+									gcc = gcc->sag;
+									printf("sag dugum\n"); // sayinin agacin hangi tarafina gittigini bulmak icin
+								}
+							}
+		
+							if(girilen->sayi < veli->sayi)
+							{
+								veli->sol = girilen;
+							}
+							else
+							{
+								veli->sag = girilen;
+							}	
+		
+						}
+
+						
+						break;
+					}
+				case 2:
+					{
+						int seviye;
+						printf("Eleman Seviyesi Giriniz: "); scanf("%d",&seviye);
+						sbul(kok,veli,seviye);				
+						break;
+					}
+				case 3:
+					{
+						int aranan;
+						araadim=1;
+						printf("Aradiginiz Sayiyi Giriniz: "); scanf("%d",&aranan);
+						bulunan = sayiAra(kok,aranan);
+						if(bulunan!=NULL)
+						{
+							printf("%d Elemani %d adimda bulundu\n",bulunan->sayi,araadim);
+						}
+						else
+						{
+							printf("Eleman Bulunamadi!\n");
+						}
+						break;
+					}
+				case 4:
+					{
+						toplam=0;
+						ortadim=0;
+						float ortalama;
+						yaprakOrtalama(kok);
+						ortalama = (float)toplam/(float)ortadim;
+						printf("Yaprak dugumlerin ortalamasi: %.3f\n",ortalama);
+						break;
+					}
+				case 5:
+					{
+						int x;
+						printf("Sayi Giriniz: "); scanf("%d",&x);
+						printf("%d degerinden buyuk elemanlar\n",x);
+						buyukSayilar(kok,x);
+						break;
+					}
+			}
+		}
+		
+		
+	}
+	
+	
+	
+}
