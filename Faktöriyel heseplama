@@ -1,0 +1,16 @@
+#include<stdio.h>
+#include<conio.h>
+
+int main()
+{
+	int i,sayi,faktoriyel=1;
+	printf("sayi giriniz: "); scanf("%d",&sayi);
+	
+	for(i=1;i<=sayi;i++)
+	{
+		faktoriyel=faktoriyel*i;
+	}
+	printf("%d faktoriyeli: %d dir",sayi,faktoriyel);
+}
+
+
