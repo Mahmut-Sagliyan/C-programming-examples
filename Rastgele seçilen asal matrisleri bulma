@@ -1,0 +1,36 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<time.h>
+
+int main()
+{
+	int i,j,toplam=0,dizi[10][10];
+	srand(time(NULL));
+	for(i=1;i<=3;i++)
+	{
+		for(j=1;j<=3;j++)
+		{
+			int k,kontrol=0,rastgele;
+			rastgele=rand()%100;
+			printf("dizi(%d,%d) = %d\n",i,j,rastgele);
+			for(k=2;k<rastgele;k++)
+			{
+			  if(rastgele%k==0)
+			  kontrol++;
+			}
+			if(kontrol>0 || rastgele<=1)
+			{
+			  printf("sayi asal degil\n\n");
+			  kontrol=1;	
+			}	
+			if(kontrol==0)	
+		    {
+			  printf("sayi asal\n\n");
+			  toplam=toplam+rastgele;
+			}
+		}
+	}
+	printf("asallarin toplami = %d",toplam);
+	getch();
+}
