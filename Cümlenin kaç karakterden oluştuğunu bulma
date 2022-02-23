@@ -1,0 +1,14 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+
+int main()
+{
+	int adet;
+	char kelime[50];
+	printf("cumle giriniz :");
+	gets(kelime);
+	adet=strlen(kelime);
+	printf("%d adet karakter var: ",adet);
+
+}
