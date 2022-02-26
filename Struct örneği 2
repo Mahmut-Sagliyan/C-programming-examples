@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<conio.h>
+
+struct ders
+{
+	int derskod;
+	int vize;
+	int final;
+	float gecmenotu;
+}d[5];
+
+
+struct kisibilgileri
+{
+	char ad[20];
+	char soyad[20];
+	int no;
+}k[5];
+
+int main()
+{
+	int i;
+	for(i=1;i<=2;i++)
+	{
+		printf("%d. ogrencinin adi:",i); scanf("%s",&k[i].ad);
+		printf("%d. ogrencinin soyadi:",i); scanf("%s",&k[i].soyad);
+		printf("%d. ogrencinin numarasi:",i); scanf("%d",&k[i].no);
+		printf("%d. dersin kodu:",i); scanf("%d",&d[i].derskod);
+		printf("%d. ogrencinin vizesi:",i); scanf("%d",&d[i].vize);
+		printf("%d. ogrencinin finali:",i); scanf("%d",&d[i].final);
+		d[i].gecmenotu=d[i].vize*0.4+d[i].final*0.6;
+	}
+	printf("\n\n ogrenci bilgieri\n\n");
+	for(i=1;i<=2;i++)
+	{
+		printf("isim %s\nsoyisim %s\nogrenci numarasi %d\nders kodu %d\nvize %d\nfinal %d\ngecmenotu %f\n\n",k[i].ad,k[i].soyad,k[i].no,d[i].derskod,d[i].vize,d[i].final,d[i].gecmenotu);
+	}
+	getch();
+}
+
