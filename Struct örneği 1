@@ -1,0 +1,26 @@
+#include<stdio.h>
+#include<conio.h>
+
+
+struct isci
+{
+	char ad[30];
+	char soyad[30];
+	int yas;
+	double maas;
+} i;
+
+int fonksiyon(struct isci i)
+{	printf("iscinin adi: "); scanf("%s",&i.ad);
+	printf("soyadi: "); scanf("%s",&i.soyad);
+	printf("yasi: "); scanf("%d",&i.yas);
+	printf("aylik maasi: "); scanf("%lf",&i.maas);
+	printf("\nismi: %s\nsoyismi: %s\nyasi: %d\naylik maasi: %lf",i.ad,i.soyad,i.yas,i.maas);
+
+}
+
+int main()
+{
+    fonksiyon(i);
+    getch();
+}
