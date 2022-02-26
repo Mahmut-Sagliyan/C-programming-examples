@@ -1,0 +1,261 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+
+struct dugum                                                     
+{
+	int sayi;
+	char ad[50],soyad[50];
+	struct dugum *sonraki;
+};
+
+int main()
+{
+	FILE *dosya;
+	dosya = fopen("veriListesi.txt","r");                                  
+
+	
+	struct dugum *ilk = NULL;                                           
+	struct dugum *gelen = NULL;
+	struct dugum *gcc = NULL;                                       
+	struct dugum *sayiBul = NULL;
+	struct dugum *sayisil = NULL;
+	int girilen,ara,i=0,silinen,ekle,secim;
+	char isim[50],soyisim[50],adekle[50],soyAdekle[50];
+	
+	
+	if(dosya==NULL)
+	{
+		printf("Dosya bulunamadi ");
+	}
+	
+	while(!feof(dosya))  
+	{
+		fscanf(dosya,"%d",&girilen);                                       
+		fscanf(dosya,"%s",&isim);             
+		fscanf(dosya,"%s",&soyisim);
+		
+	
+		if(ilk==NULL)                                                      
+		{
+			ilk = (struct dugum*) malloc(sizeof(struct dugum)*1);         
+			ilk->sayi = girilen;                                         
+			for(i=0;i<sizeof(isim);i++)                                  
+			{
+				ilk->ad[i] = isim[i];                                   
+			}
+			
+			for(int i=0;i<sizeof(soyisim);i++)
+			{
+				ilk->soyad[i] = soyisim[i];                   
+			}
+			
+			ilk->sonraki = NULL;                                        
+			gelen = ilk;                                                     
+		}
+		
+		else
+		{
+			gelen->sonraki = (struct dugum*) malloc(sizeof(struct dugum)*1);   
+			gelen = gelen->sonraki;
+			gelen->sayi = girilen;
+			
+			for(i=0;i<sizeof(isim);i++)                                       
+			{
+				gelen->ad[i] = isim[i];                                           
+			}
+			
+			for(int i=0;i<sizeof(soyisim);i++)
+			{
+				gelen->soyad[i] = soyisim[i];
+			}
+			
+			gelen->sonraki = NULL;	
+		}
+	
+   }
+   
+   while(1==1)                                                                    
+   {
+   	 printf("1-Ekleme\n2-Arama\n3-Listeleme\n4-Silme\n5-Cikis\n(1-5)Arasinda Secim Yapiniz\nHangi islemi secmek istersiniz: "); scanf("%d",&secim);
+   	 
+   	 if(secim == 5)                                                               
+   	 {
+   	 	FILE *dosya1;
+   	    dosya1 = fopen("veriListesi.txt","w");
+   	 	
+   	 	gcc = ilk;
+   	 	while(gcc!=NULL)                                                           
+   	 	{
+   	 		fprintf(dosya1,"%d %s %s\n",gcc->sayi,gcc->ad,gcc->soyad);                         
+   	 		gcc = gcc->sonraki;
+		}
+   	 	break;
+	 }
+	 
+	 else
+	 {
+	 	switch(secim)                                                              
+	 	{
+	 	  case 1:                                                                  
+			 {
+			 	// Ekleme
+			 	
+			 	printf("Eklemek istediginiz numarayi girin: "); scanf("%d",&ekle);           
+			 	printf("Eklemek istediginiz ismi girin: "); scanf("%s",&adekle);
+			 	printf("Eklemek istediginiz soyismi girin: "); scanf("%s",&soyAdekle);
+			 	
+   				if(ilk==NULL)
+   				{
+   					ilk = (struct dugum*) malloc(sizeof(struct dugum)*1);
+   	 				ilk->sayi = ekle;
+   	 				for(int i=0;i<sizeof(adekle);i++)
+   	 				{
+   	 				    ilk->ad[i] = adekle[i];
+					}
+					
+					for(int i=0;i<sizeof(soyAdekle);i++)
+					{
+						ilk->soyad[i] = soyAdekle[i];
+					}
+   	 				ilk->sonraki = NULL;
+   	 				gelen = ilk;
+   				}
+   
+   				else
+   				{
+   					 gelen->sonraki = (struct dugum*) malloc(sizeof(struct dugum)*1);
+   					 gelen = gelen->sonraki;
+   					 gelen->sayi = ekle;
+   					 for(int i=0;i<sizeof(adekle);i++)
+   					 {
+   					 	gelen->ad[i] = adekle[i];
+					 }
+					 
+					 for(int i=0;i<sizeof(soyAdekle);i++)
+					 {
+					 	gelen->soyad[i] = soyAdekle[i];
+					 }
+  					 gelen->sonraki = NULL;
+   				}
+   				
+   				printf("Ekleme basariyla gerceklesti\n");
+   				break;
+			 }
+			 
+			case 2:                                                                          
+		 {
+		 	 // Arama
+		 	  int bul=0,sayac=0;
+		      printf("Aradiginiz degeri girin: "); scanf("%d",&ara);                        
+		      
+   			  gcc = ilk;	  	 
+   			  while(gcc!=NULL)
+   			{
+   	 		 if(gcc->sayi == ara)
+   	 		  {
+   	 			bul++;
+   	 			sayiBul = gcc;
+   	 	     	sayac++;
+   	 			break;
+     		  }
+     				 
+     		 gcc = gcc->sonraki;
+     	     sayac++;
+   			}
+   
+             if(bul>0)                                                                         
+             {
+   			   printf("%d numarasi %d adimda bulundu\n",ara,sayac);
+  			 }
+   
+   			 else
+   			 {
+   			 printf("Aradiginiz deger bulunamadi\n");
+   			 }
+   			 
+   			 break;
+		  }
+		  
+		  case 3:                                                                
+		{
+			// Listeleme
+  		    gcc = ilk;                                                             
+   		    while(gcc!=NULL)
+   			{
+   	 		  printf("sayi: %d %s %s\n",gcc->sayi,gcc->ad,gcc->soyad);
+   	          gcc = gcc->sonraki;
+   			}
+   			
+			break;
+		}
+		
+		  case 4:                                                                   
+		 {
+		  	//Silme
+		  	int sil=0;
+		  	printf("Silmek istediginiz degeri girin: "); scanf("%d",&silinen);      
+   			gcc = ilk;
+
+     		while(gcc!=NULL)                                                                     
+   			{
+   	 		  if(gcc->sayi == silinen)                                  
+   	 		  {
+   	 	        sil++;
+   	 	        sayisil = gcc;
+   	 			break;
+     		  }
+     
+     		gcc = gcc->sonraki	;
+   			}
+   
+   
+	 	   if(sil>0)                                                        
+		  {
+		   	
+	    	if(ilk->sayi == silinen)                                        
+   	 		{
+   	 		  sil++;
+   	 		  sayisil = ilk;
+   	 		  ilk = ilk->sonraki;
+   	 		  free(sayisil);
+	 		}
+	  
+		    else                                                              
+	  	    { 
+			 gcc =ilk;
+			 sil++;
+     	 	 while(gcc->sonraki!=sayisil)
+     	 	 {
+     	       gcc = gcc->sonraki;
+		     }
+   	    
+   	 		gcc->sonraki = gcc->sonraki->sonraki;
+   	 		free(sayisil);
+	  		}
+		 }
+	    
+	     
+   			if(sil>0)                                                                       
+   			{ 
+   			  printf("%d numarasi silindi\n",silinen);
+   			}
+   
+   			else                                                             
+   			{
+   			  printf("Secmis oldugunuz sayi listede bulunmamaktadir\n");      
+   			}
+   			
+   			break;
+		 }
+		 
+		  default: printf("Yanlis tuslama yaptiniz lutfen tekrar secim yapiniz\n");    
+	   }
+		
+	
+	 }
+   }
+   
+  
+   
+}
