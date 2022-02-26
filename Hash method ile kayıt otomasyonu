@@ -1,0 +1,344 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+struct musteri
+{
+	int numara;
+	char ad[20],soyad[20];
+}musteri[10];
+
+
+int modAlma(int musteriNo)
+{
+	return musteriNo % 10;
+}
+
+
+void hashListe(int hashTablo[10][2])
+{
+	for(int i=0;i<10;i++)
+	{
+		for(int j=0;j<2;j++)
+		{
+			printf("%d	",hashTablo[i][j]);	
+		}
+	    printf("\n");
+	}
+}
+
+
+
+
+int main()
+{
+	FILE *dosya1;
+	dosya1 = fopen("veri.txt","r");
+	
+	int veriListe[10];
+	int musteriNo;
+	int indis=-1,i=-1,n=0,say=0;
+	int hashTablo[10][2];
+	int modsonuc;
+	int next=-1,next1;
+	int secim,aranan,silinen,eklenen;
+	float ortAdimsayisi;
+	char isim[20][20],name[20][20];
+	char soyisim[20][20],surname[20][20];
+	char adekle[20][20],soyadekle[20][20];
+	
+	for(int i=0;i<10;i++)
+	{
+		for(int j=0;j<2;j++)
+		{
+			hashTablo[i][j] = -1;
+		}
+	}
+	
+	if(dosya1==NULL)
+	{
+		printf("Dosya bulunamadi ");
+	}
+	
+	while(!feof(dosya1))
+	{
+		n++;
+		i++;
+		indis++;
+		fscanf(dosya1,"%d",&musteriNo);
+		fscanf(dosya1,"%s",&isim[i]);
+		fscanf(dosya1,"%s",&soyisim[i]);
+			
+
+		modsonuc = modAlma(musteriNo);
+	    	    	    
+	    
+	    if(hashTablo[modsonuc][0] == -1)
+	    {
+	    	hashTablo[modsonuc][0] = musteriNo;
+	    	for(int j=0;j<10;j++)
+			{
+				name[modsonuc][j] = isim[i][j];
+				surname[modsonuc][j] = soyisim[i][j];
+			}
+	    	say++;
+		}
+		
+		else
+		{
+			next++;
+			while(1==1)
+			{
+				if(hashTablo[next][0] == -1)
+				{
+					hashTablo[next][0] = musteriNo;
+					
+					for(int j=0;j<10;j++)
+					{
+						name[next][j] = isim[i][j];
+						surname[next][j] = soyisim[i][j];
+					}
+					
+					if(hashTablo[modsonuc][1] == -1)
+				    {
+						hashTablo[modsonuc][1] = next;
+						next1 = next;
+						say = say+2;
+					}
+				
+					if(hashTablo[next1][1] == -1 && next!=next1)
+					{
+						hashTablo[next1][1] = next;
+						next1 = next;
+						say = say+3;
+					}
+					
+					break;
+				}
+
+				next++;
+			}
+
+			
+		}
+				
+	}
+
+
+	
+	while(1==1)
+	{
+		printf("1-Ekleme\n2-Arama\n3-Silme\n4-Hash Tablosu Listeleme\n5-Veri Listesini listeleme\n6-Ortalama Adim Sayisi\n7-Cikis\n(1-7) Arasinda Secim Yapiniz: "); scanf("%d",&secim);
+		
+		if(secim==7)  
+		{
+			break;
+		}
+		
+		else
+		{
+			switch(secim)
+			{
+				case 1:  
+					{	
+						if(n>=10)
+						{
+							printf("Liste dolu ekleme yapilamaz\n");
+						}
+						else
+						{
+							n++;
+							i++;
+							printf("Eklemek istediginiz numarayi giriniz: "); scanf("%d",&eklenen);
+							printf("eklemek istediginiz ismi giriniz: "); scanf("%s",&adekle[i]);
+							printf("eklemek istediginiz soyismi giriniz: "); scanf("%s",&soyadekle[i]);
+							modsonuc = modAlma(eklenen);
+							
+							if(hashTablo[modsonuc][0] == -1)
+	    					{
+	    						hashTablo[modsonuc][0] = eklenen;
+	    						
+	    						for(int j=0;j<10;j++)
+								{
+									name[modsonuc][j] = adekle[i][j];
+									surname[modsonuc][j] = soyadekle[i][j];
+								}
+	    						say++;
+							}
+		
+							else
+							{
+								next++;
+								while(1==1)
+								{
+									if(hashTablo[next][0] == -1)
+									{
+										hashTablo[next][0] = eklenen;
+										
+										for(int j=0;j<10;j++)
+										{
+											name[next][j] = adekle[i][j];
+											surname[next][j] = soyadekle[i][j];
+										}
+					
+										if(hashTablo[modsonuc][1] == -1)
+				   						{
+											hashTablo[modsonuc][1] = next;
+											next1 = next;
+											say = say+2;
+										}
+				
+										if(hashTablo[next1][1] == -1 && next!=next1)
+										{
+											hashTablo[next1][1] = next;
+											next1 = next;
+											say = say+3;
+										}
+					
+										break;
+									}
+
+									next++;
+								}
+
+							}
+							
+							printf("Ekleme islemi gerceklestirildi\n");
+						}
+						
+						break;
+					}
+				
+				case 2: 
+					{
+						int bul=0,sayac=0,indexbul;
+						printf("Aranacak numarayi giriniz: "); scanf("%d",&aranan);
+						modsonuc = modAlma(aranan);
+						
+						indexbul = hashTablo[modsonuc][1];
+								
+						if(hashTablo[modsonuc][0] == aranan)
+						{
+							bul++;
+							sayac++;
+						}
+						
+						else
+						{
+							sayac++;
+							while(indexbul!=-1)
+							{
+								if(hashTablo[modsonuc][1] != -1  && hashTablo[indexbul][0] == aranan)
+								{
+									bul++;
+									sayac++;
+									break;
+								}
+								sayac++;
+								indexbul = hashTablo[indexbul][1];
+							}
+						}
+						
+						
+						if(bul==0)
+						{
+							printf("Veri bulunamadi\n");
+						}	
+						else if(bul!=0 && sayac==1)
+						{
+							printf("%d %s %s Veri %d adimda bulundu\n",aranan,name[modsonuc],surname[modsonuc],sayac);
+						}
+						else
+						{
+							printf("%d %s %s Veri %d adimda bulundu\n",aranan,name[indexbul],surname[indexbul],sayac);
+						}
+						
+						break;
+					}
+					
+				case 3: 
+					{
+						int sil=0,indexsil;
+						printf("Silmek istediginiz numarayi girin: "); scanf("%d",&silinen);
+						modsonuc = modAlma(silinen);
+						
+						indexsil = hashTablo[modsonuc][1];
+						
+						if(hashTablo[modsonuc][0] == silinen)
+						{
+							sil++;
+							hashTablo[modsonuc][0] = -1;
+						}
+						
+						else
+						{
+							while(indexsil!=-1)
+							{
+								if(hashTablo[modsonuc][1] != -1  && hashTablo[indexsil][0] == silinen)
+								{
+									sil++;
+									hashTablo[indexsil][0] = -1;
+									break;
+								}
+								indexsil = hashTablo[indexsil][1];
+							}
+						}
+						
+						if(sil>0)
+						{
+							printf("%d Numarali kisi Silindi\n",silinen);
+						}
+						else
+						{
+							printf("Silmek istediginiz deger listede yoktur\n");
+						}
+						
+						break;
+					}
+					
+					case 4: 
+						{
+							hashListe(hashTablo);
+							break;
+						}
+					
+					case 5: 
+						{
+							for(int i=0;i<10;i++)
+							{
+								musteri[i].numara = hashTablo[i][0];
+								
+								for(int j=0;j<10;j++)
+								{
+									musteri[i].ad[j] = name[i][j];
+									musteri[i].soyad[j] = surname[i][j];
+								}
+
+															
+								if(hashTablo[i][0] != -1)
+								{
+									printf("%d %s %s\n",musteri[i].numara,musteri[i].ad,musteri[i].soyad);
+								}
+								
+								
+							}
+							break;
+						}
+						
+					case 6: 
+						{
+							ortAdimsayisi = (float)say/n;
+							printf("Ortalama adim sayisi: %f\n",ortAdimsayisi);
+							break;
+						}
+						
+			}
+		}
+	}
+	
+			
+	
+	
+}
